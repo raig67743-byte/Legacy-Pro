@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGACY PRO | TITAN ARCHIVE v11.0</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .faq-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+gap:20px;
+margin-top:40px;
+}
+
+.faq-card{
+background:var(--panel-dark);
+border:2px solid var(--border-line);
+padding:25px;
+border-radius:15px;
+cursor:pointer;
+font-weight:700;
+text-align:center;
+transition:0.3s;
+}
+
+.faq-card:hover{
+border-color:var(--electric-blue);
+transform:scale(1.05);
+color:white;
+}
+        
+        :root {
+            --master-black: #010409;
+            --panel-dark: #0d1117;
+            --card-deep: #161b22;
+            --electric-blue: #2f81f7;
+            --neon-cyan: #58a6ff;
+            --gold: #d29922;
+            --red-alert: #f85149;
+            --green-success: #3fb950;
+            --border-line: #30363d;
+            --text-silver: #c9d1d9;
+            --text-gray: #8b949e;
+        }
+
+        /* CUSTOM SCROLLBAR - DESIGN GAMER */
+        ::-webkit-scrollbar { width: 14px; }
+        ::-webkit-scrollbar-track { background: var(--master-black); }
+        ::-webkit-scrollbar-thumb { background: var(--electric-blue); border-radius: 7px; border: 4px solid var(--master-black); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+
+        body {
+            background-color: var(--master-black);
+            color: var(--text-silver);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR PROVINCIA - ESTRUTURA FIXA */
+        .sidebar {
+            width: 320px;
+            height: 100vh;
+            background: var(--panel-dark);
+            border-right: 2px solid var(--border-line);
+            position: fixed;
+            padding: 50px 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .brand-header {
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 30px;
+        }
+
+        .brand-logo {
+            font-weight: 900;
+            font-size: 2rem;
+            color: white;
+            letter-spacing: -2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-dot { width: 15px; height: 15px; background: var(--electric-blue); border-radius: 50%; animation: pulse 2s infinite; }
+
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+
+        .nav-menu { flex-grow: 1; overflow-y: auto; }
+
+        .nav-btn {
+            padding: 18px 25px;
+            border-radius: 15px;
+            color: var(--text-gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: 0.4s;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover { background: rgba(47, 129, 247, 0.1); color: white; padding-left: 35px; }
+        .nav-btn.active { background: var(--electric-blue); color: white; border-color: var(--neon-cyan); box-shadow: 0 10px 25px rgba(47, 129, 247, 0.3); }
+
+        /* CONTEÚDO PRINCIPAL */
+        .main-container {
+            margin-left: 320px;
+            padding: 100px 80px;
+            max-width: 1500px;
+        }
+
+        .section { display: none; }
+        .section.active { display: block; animation: sectionEntry 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+
+        @keyframes sectionEntry { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CARDS MONSTRUOSOS */
+        .mega-card {
+            background: var(--card-deep);
+            border: 1px solid var(--border-line);
+            border-radius: 40px;
+            padding: 80px;
+            margin-bottom: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mega-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 8px;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-cyan));
+        }
+
+        .mega-card h1 { font-size: 4.5rem; font-weight: 800; color: white; margin-bottom: 40px; letter-spacing: -3px; }
+        .mega-card h2 { font-size: 2.5rem; color: var(--electric-blue); margin-top: 60px; font-weight: 800; }
+        .mega-card h3 { font-size: 1.8rem; color: var(--gold); margin-top: 40px; border-bottom: 1px solid var(--border-line); display: inline-block; padding-bottom: 10px; }
+        .mega-card p { font-size: 1.35rem; color: #b1bac4; text-align: justify; margin-top: 25px; line-height: 2.2; }
+
+        /* IMAGENS DE ALTA QUALIDADE */
+        .img-wrap {
+            width: 450px;
+            height: 550px;
+            float: right;
+            margin-left: 50px;
+            margin-bottom: 40px;
+            border-radius: 30px;
+            border: 6px solid var(--border-line);
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+        .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .img-wrap:hover img { transform: scale(1.05); }
+
+        /* GRID DE HARDWARE */
+        .hw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 40px; }
+        .hw-item {
+            background: var(--panel-dark);
+            border: 2px solid var(--border-line);
+            padding: 50px;
+            border-radius: 30px;
+            transition: 0.5s;
+        }
+        .hw-item:hover { border-color: var(--electric-blue); transform: scale(1.02); }
+
+        /* NEURAL BUDDY CHAT - AMIGÁVEL */
+        .chat-box {
+            height: 800px;
+            background: #010409;
+            border: 4px solid var(--electric-blue);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 100px rgba(47, 129, 247, 0.2);
+        }
+
+        .chat-header {
+            background: var(--electric-blue);
+            padding: 25px 50px;
+            color: white;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #chat-content {
+            flex-grow: 1;
+            padding: 50px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            background: radial-gradient(circle at 50% 50%, #0d1117 0%, #010409 100%);
+        }
+
+        .bubble { max-width: 80%; padding: 25px 35px; border-radius: 30px; font-size: 1.1rem; line-height: 1.7; }
+        .bubble-buddy { background: rgba(63, 185, 80, 0.1); color: var(--green-success); align-self: flex-start; border: 2px solid var(--green-success); }
+        .bubble-me { background: rgba(210, 153, 34, 0.1); color: var(--gold); align-self: flex-end; border: 2px solid var(--gold); }
+
+        .chat-input {
+            padding: 40px;
+            background: var(--panel-dark);
+            display: flex;
+            gap: 25px;
+        }
+
+        #query-field {
+            background: var(--master-black);
+            border: 2px solid var(--border-line);
+            color: white;
+            padding: 20px 35px;
+            border-radius: 20px;
+            flex-grow: 1;
+            outline: none;
+            font-size: 1.1rem;
+        }
+        #query-field:focus { border-color: var(--electric-blue); }
+
+        /* JORNAL GAZETTE */
+        .news-columns { column-count: 3; column-gap: 80px; }
+        .news-article { margin-bottom: 60px; break-inside: avoid; border-bottom: 1px solid var(--border-line); padding-bottom: 30px; }
+
+        /* ESTILO PARA CÓDIGO */
+        pre { background: #000; padding: 20px; border-radius: 10px; border: 1px solid var(--border-line); color: var(--neon-cyan); }
+
+    .progress-container{
+width:100%;
+height:14px;
+background:#1e293b;
+border-radius:10px;
+margin-bottom:25px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#2f81f7,#58a6ff);
+transition:width 0.4s ease;
+box-shadow:0 0 15px #2f81f7;
+}
+    
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand-header">
+            <div class="brand-logo">
+                <div class="brand-dot"></div>
+                LEGACY <span style="color: var(--electric-blue)">PRO</span>
+            </div>
+            <small class="text-gray mt-2 d-block">Enterprise Archive v11.2</small>
+        </div>
+        
+        <nav class="nav-menu">
+            <div class="nav-btn active" onclick="nav('home', this)">Início</div>
+            <div class="nav-btn" onclick="nav('shortcuts', this)">Atalhos Pro</div>
+            <div class="nav-btn" onclick="nav('cyber', this)">Cyber Warfare Labs</div>
+            <div class="nav-btn" onclick="nav('dev', this)">Dev & AI Core</div>
+            <div class="nav-btn" onclick="nav('panteao', this)">Panteão dos Mestres</div>
+            <div class="nav-btn" onclick="nav('history', this)">História da Tecnologia</div>
+            <div class="nav-btn" onclick="nav('hardware', this)">Hardware Archive Pro</div>
+            <div class="nav-btn" onclick="nav('networks', this)">Infra & Redes</div>
+            <div class="nav-btn" onclick="nav('tutorials', this)">Tutorial Lab</div>           
+            <div class="nav-btn" onclick="nav('news', this)">Legacy Times</div>
+            <div class="nav-btn" onclick="nav('challenges', this)">Tech Challenges</div>        
+        </nav>
+
+        <div class="mt-5">
+            <span class="badge bg-success w-100 py-2" style="border-radius: 10px; font-size: 0.7rem;">SISTEMA ESTÁVEL - NÍVEL 10</span>
+        </div>
+    </aside>
+
+    <main class="main-container">
+
+        <section id="home" class="section active">
+
+<div class="mega-card">
+
+<h1>LEGACY <span class="text-primary">PRO</span></h1>
+
+<h3>Arquivo Tecnológico Interativo</h3>
+
+<p>
+O <b>Legacy Pro</b> é um portal de aprendizado tecnológico criado para centralizar conhecimento
+sobre programação, desenvolvimento de jogos, redes, hardware e segurança digital.
+O objetivo do sistema é servir como uma biblioteca tecnológica moderna onde qualquer pessoa
+possa aprender conceitos importantes da computação de forma organizada e acessível.
+</p>
+
+<p>
+Dentro do Legacy Pro você encontra explicações técnicas, história da computação,
+tutoriais de desenvolvimento e uma base de conhecimento interativa.
+O projeto foi pensado para funcionar até mesmo offline, servindo como um verdadeiro
+<b>arquivo de conhecimento digital</b>.
+</p>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Funções do Sistema</h2>
+
+<ul>
+<li>📚 Base de conhecimento sobre tecnologia</li>
+<li>💻 Tutoriais de programação e desenvolvimento</li>
+<li>🎮 Conteúdo sobre desenvolvimento de jogos</li>
+<li>🌐 Explicações sobre redes e infraestrutura</li>
+<li>🔒 Conceitos de segurança digital</li>
+<li>⚡ Atalhos úteis para produtividade</li>
+<li>🧠 Conceitos de inteligência artificial</li>
+</ul>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Como usar o site</h2>
+
+<p>
+Use o menu lateral para navegar entre as diferentes áreas do sistema.
+Cada seção foi organizada para facilitar o aprendizado e a consulta rápida
+de conceitos tecnológicos importantes.
+</p>
+
+<ul>
+<li><b>Cyber Warfare</b> → Segurança digital</li>
+<li><b>Dev & AI Core</b> → Desenvolvimento e IA</li>
+<li><b>Panteão dos Mestres</b> → Grandes nomes da tecnologia</li>
+<li><b>Hardware Archive</b> → Conceitos de hardware</li>
+<li><b>Infra & Redes</b> → Estrutura da internet</li>
+<li><b>Tutorial Lab</b> → Tutoriais técnicos</li>
+</ul>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Créditos</h2>
+
+<p>
+Projeto criado por <b>Rai Gabriel dos Santos Souza</b>.
+</p>
+
+<p>
+O objetivo do projeto é reunir conhecimento de tecnologia em um único sistema,
+permitindo que estudantes e curiosos aprendam sobre computação de forma prática.
+</p>
+
+<p>
+Este site utiliza tecnologias web modernas como <b>HTML, CSS e JavaScript</b>,
+além de frameworks de interface como <b>Bootstrap</b>.
+</p>
+
+</div>
+
+</section>
+        
+        <section id="ai" class="section">
+            <h1 class="fw-bold mb-4">Neural <span class="text-primary">Buddy</span></h1>
+            <p class="text-gray mb-5" style="font-size: 1.4rem;">Eu não sou um sistema rígido. Sou seu parceiro. Quer falar de Roblox? Dúvida de PC? Ou só dar um salve? Tô aqui.</p>
+            
+            <div class="chat-box">
+                <div class="chat-header">
+                    <span>LEGACY_BUDDY_SYSTEM_V11</span>
+                    <span>ONLINE</span>
+                </div>
+                <div id="chat-content">
+                    <div class="bubble bubble-buddy">E aí, meu bom! Tudo certo? Sou o Neural Buddy. Aqui no Legacy Pro a gente não brinca em serviço, mas o papo é reto e amigável. O que você quer dominar hoje? Manda o papo!</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="query-field" placeholder="Ex: 'Me explica o modelo OSI', 'Quem é o Notch?', 'Golpe de Phishing'..." onkeypress="checkKey(event)">
+                    <button class="btn btn-primary px-5 rounded-pill fw-bold" onclick="sendMsg()">ENVIAR</button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="cyber" class="section">
+            <div class="mega-card">
+                <h1>Cyber Warfare: <span class="text-danger">Ataque & Defesa</span></h1>
+                <p>O campo da segurança cibernética é uma partida de xadrez infinita. De um lado, os atacantes buscam o elo mais fraco; do outro, os defensores constroem muralhas de lógica. Não se trata apenas de "vírus", mas de uma arquitetura complexa de vulnerabilidades e explorações.</p>
+                
+                <h2>1. O Conceito de Vetor de Ataque</h2>
+                <p>Um vetor de ataque é o caminho ou meio pelo qual um hacker ganha acesso a um computador ou rede para entregar uma carga maliciosa (payload). Isso pode ser feito via e-mail, redes Wi-Fi públicas sem proteção ou até mesmo dispositivos USB "esquecidos" propositalmente em locais públicos.</p>
+                
+                <div class="img-wrap">
+                    <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2023/06/phishing.jpg?w=1024" alt="Cyber Attack">
+                </div>
+
+                <h3>Phishing: A Arte do Engano</h3>
+                <p>O Phishing não é um ataque técnico, mas psicológico. É a chamada Engenharia Social. O atacante cria um senso de urgência ("Sua conta será bloqueada!") para que você ignore a lógica e clique em um link malicioso. **Prevenção:** Verifique o remetente, não confie em links encurtados e, na dúvida, entre em contato direto com o suporte oficial pelo canal que você já conhece.</p>
+
+                <h2>2. Defesa em Profundidade</h2>
+                <p>A defesa moderna usa o conceito de "Camadas de Cebola". Se o atacante passa pelo Firewall, ele encontra o Sistema de Detecção de Intrusão (IDS). Se passa pelo IDS, encontra a criptografia de dados. Se passa por tudo isso, ele é barrado pelo Controle de Acesso Baseado em Funções (RBAC). A segurança perfeita não existe, existe a redução do risco.</p>
+                
+                <h3>Termos de Elite:</h3>
+                <ul>
+                    <li><strong>SQL Injection:</strong> Quando um hacker insere comandos de banco de dados em um campo de texto de um site para roubar informações.</li>
+                    <li><strong>Brute Force:</strong> Tentativa exaustiva de acertar uma senha usando milhares de combinações por segundo.</li>
+                    <li><strong>Honey Pot:</strong> Um sistema "falso" criado por defensores para atrair e estudar hackers sem colocar a rede real em risco.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="dev" class="section">
+            <div class="mega-card">
+                <h1>Desenvolvimento & <span class="text-primary">IA Core</span></h1>
+                
+                <h2>O que é Inteligência Artificial (IA) de verdade?</h2>
+                <p>A IA é a simulação de processos de inteligência humana por sistemas de computação. Isso inclui a aquisição de informações (aprendizado), o uso de regras para chegar a conclusões (raciocínio) e a autocorreção. No nível mais profundo, falamos de **Machine Learning**, onde ensinamos o computador a reconhecer padrões sem que ele tenha sido explicitamente programado para aquela tarefa específica.</p>
+
+                <div class="img-wrap">
+                    <img src="https://www.iea.usp.br/imagens/cerebro-digital/image" alt="IA Core">
+                </div>
+
+                <h2>Desenvolvimento de Jogos e GDD</h2>
+                <p>Criar um jogo é um equilíbrio entre arte e engenharia. Tudo começa com o **GDD (Game Design Document)**. Sem ele, a equipe se perde. O GDD define a "Bíblia" do jogo: personagens, economia, controles e a história. No desenvolvimento moderno, a IA ajuda a gerar texturas, sons e até comportamentos de NPCs (Personagens não-jogáveis) que parecem vivos.</p>
+                
+                <h3>Game Design: A Psicologia do Jogador</h3>
+                <p>Um bom desenvolvedor entende a **Dopamina**. O jogo deve recompensar o jogador no tempo certo. Se for muito difícil, ele desiste (frustração). Se for muito fácil, ele para (tédio). O segredo é o estado de "Flow", onde o desafio e a habilidade do jogador estão em perfeito equilíbrio.</p>
+            </div>
+        </section>
+
+        <section id="panteao" class="section">
+            <h1 class="fw-bold mb-5">O Panteão dos <span class="text-primary">Arquitetos</span></h1>
+
+            <div class="mega-card clearfix">
+                <div class="img-wrap">
+                    <img src="https://minecraft.wiki/images/thumb/Notch.jpg/1200px-Notch.jpg?3c215" alt="Notch">
+                </div>
+                <h2>Markus "Notch" Persson</h2>
+                <h3>O Criador de Minecraft</h3>
+                <p>Notch é a figura central do desenvolvimento independente. Sozinho, em seu apartamento na Suécia, ele começou um projeto chamado "Cave Game". Ele não focou em gráficos ultra-realistas, mas na liberdade. Minecraft tornou-se um fenômeno porque permitiu que o jogador fosse o designer. Notch provou que uma pessoa com uma ideia e conhecimento de Java/C++ pode derrubar impérios bilionários.</p>
+            </div>
+
+            <div class="mega-card clearfix">
+                <div class="img-wrap">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Hideo_Kojima_2025_SXSW_%28cropped%29.jpg" alt="Kojima">
+                </div>
+                <h2>Hideo Kojima</h2>
+                <h3>O Mestre da Narrativa</h3>
+                <p>Kojima revolucionou os games com a série **Metal Gear**. Ele introduziu o gênero "Stealth" (furtividade), onde o objetivo não era matar todo mundo, mas passar despercebido. Suas histórias são densas, cheias de política, tecnologia e filosofia. Ele é o exemplo de como um desenvolvedor de jogos pode ser um cineasta, usando o código para contar histórias que emocionam o mundo todo.</p>
+            </div>
+        
+        <div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Alan_Turing_Aged_16.jpg">
+</div>
+<h2>Alan Turing</h2>
+<h3>Pai da Ciência da Computação</h3>
+<p>Alan Turing foi um matemático britânico considerado um dos fundadores da ciência da computação moderna. Durante a Segunda Guerra Mundial ele ajudou a quebrar os códigos da máquina Enigma usados pela Alemanha nazista. Além disso, criou o conceito da Máquina de Turing, um modelo teórico que explica como computadores processam informações. Muitas bases da computação moderna surgiram a partir de seus estudos.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Ada_Lovelace_portrait.jpg">
+</div>
+<h2>Ada Lovelace</h2>
+<h3>A Primeira Programadora</h3>
+<p>Ada Lovelace foi uma matemática inglesa do século XIX que trabalhou com Charles Babbage no projeto da Máquina Analítica. Ela escreveu o primeiro algoritmo da história destinado a ser executado por uma máquina. Por isso, é considerada a primeira programadora do mundo e uma das pioneiras da computação.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://livecoins.com.br/wp-content/uploads/2022/01/Linus-Torvalds.jpg.webp">
+</div>
+<h2>Linus Torvalds</h2>
+<h3>Criador do Linux</h3>
+<p>Linus Torvalds criou o kernel Linux em 1991 enquanto estudava na universidade. Hoje o Linux é usado em grande parte dos servidores da internet, supercomputadores e sistemas embarcados. Ele também criou o Git, o sistema de controle de versão mais usado por programadores no mundo.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sir_Tim_Berners-Lee_%28cropped%29.jpg/250px-Sir_Tim_Berners-Lee_%28cropped%29.jpg">
+</div>
+<h2>Tim Berners-Lee</h2>
+<h3>Criador da World Wide Web</h3>
+<p>Tim Berners-Lee inventou a World Wide Web em 1989 enquanto trabalhava no CERN. Ele criou tecnologias fundamentais como HTML, HTTP e URLs. Graças ao seu trabalho foi possível criar páginas conectadas por links, permitindo que a internet se tornasse acessível ao público.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bill_Gates_2018.jpg">
+</div>
+<h2>Bill Gates</h2>
+<h3>Fundador da Microsoft</h3>
+<p>Bill Gates cofundou a Microsoft e teve um papel essencial na popularização dos computadores pessoais. O sistema operacional Windows se tornou um dos softwares mais usados do mundo, permitindo que milhões de pessoas tivessem acesso à computação em casa e no trabalho.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Steve_Wozniak_by_Gage_Skidmore.jpg">
+</div>
+<h2>Steve Wozniak</h2>
+<h3>Engenheiro da Apple</h3>
+<p>Steve Wozniak foi o engenheiro responsável pelos primeiros computadores da Apple, como o Apple I e o Apple II. Seu trabalho ajudou a iniciar a revolução dos computadores pessoais, tornando máquinas que antes eram exclusivas de empresas e universidades acessíveis para pessoas comuns.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg">
+</div>
+<h2>Dennis Ritchie</h2>
+<h3>Criador da Linguagem C</h3>
+<p>Dennis Ritchie criou a linguagem de programação C e ajudou a desenvolver o sistema operacional Unix. Muitas linguagens e sistemas modernos foram construídos a partir de seus conceitos.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg">
+</div>
+<h2>James Gosling</h2>
+<h3>Criador do Java</h3>
+<p>James Gosling criou a linguagem Java nos anos 90. Hoje Java é uma das linguagens mais usadas do mundo, presente em servidores, sistemas empresariais e aplicativos Android.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://imageio.forbes.com/specials-images/imageserve/68750a2d250de42ce7c5301b/0x0.jpg?format=jpg&crop=1800,1799,x832,y152,safe&height=416&width=416&fit=bounds">
+</div>
+<h2>Jensen Huang</h2>
+<h3>Fundador da NVIDIA</h3>
+<p>Jensen Huang fundou a NVIDIA em 1993. A empresa se tornou líder no desenvolvimento de GPUs usadas em jogos, inteligência artificial, ciência e supercomputadores.</p>
+</div>
+
+<div class="mega-card clearfix">
+<div class="img-wrap">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Geoffrey_E._Hinton%2C_2024_Nobel_Prize_Laureate_in_Physics_%283x4_cropped%29.jpg">
+</div>
+<h2>Geoffrey Hinton</h2>
+<h3>Pioneiro da Inteligência Artificial</h3>
+<p>Geoffrey Hinton é um dos cientistas mais importantes da inteligência artificial moderna. Ele ajudou a desenvolver o conceito de redes neurais profundas (deep learning), tecnologia usada hoje em reconhecimento de voz, visão computacional e IA avançada.</p>
+</div>
+        </section>
+
+        <section id="hardware" class="section">
+            <h1 class="fw-bold mb-5">Hardware <span class="text-primary">Archive Pro</span></h1>
+            <div class="hw-grid">
+                <div class="hw-item">
+                    <h3 class="text-primary">Arquitetura de Transistores</h3>
+                    <p>A Lei de Moore diz que o número de transistores em um chip dobra a cada dois anos. Hoje, chegamos ao limite físico com chips de 3 nanômetros. Para ir além, a indústria está focando em empilhamento de chips (3D V-Cache).</p>
+                </div>
+                <div class="hw-item">
+                    <h3 class="text-primary">Gargalo (Bottleneck)</h3>
+                    <p>O erro mais comum ao montar um PC. Não adianta ter uma RTX 4090 se o seu processador é um i3 antigo. O processador não vai conseguir enviar informações rápido o suficiente para a placa de vídeo, e você terá quedas de FPS.</p>
+                </div>
+                <div class="hw-item">
+                    <h3 class="text-primary">VRMs e Refrigeração</h3>
+                    <p>Muitos olham apenas para o processador, mas esquecem do VRM da placa-mãe. O VRM regula a energia. Se ele esquentar demais, o PC vai diminuir a velocidade (Thermal Throttling) para não derreter os componentes.</p>
+                </div>
+                <div class="hw-item">
+                    <h3 class="text-primary">Latência de Memória (CL)</h3>
+                    <p>Não basta ter muitos MHz. O CL (Cas Latency) define quantos ciclos de clock a memória leva para responder. Para jogos competitivos, latências baixas são tão importantes quanto frequências altas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="networks" class="section">
+            <div class="mega-card">
+                <h1>Infraestrutura & <span class="text-primary">Redes Globais</span></h1>
+                <p>A internet é uma rede de redes. Para ser um mestre da tecnologia, você precisa entender como os dados viajam do seu computador até um servidor no Japão em menos de 200ms.</p>
+                
+                <h3>O Modelo OSI: As 7 Camadas</h3>
+                <p>Para que dois computadores se falem, eles seguem um padrão:</p>
+                <ol>
+                    <li><strong>Física:</strong> Cabos e sinais elétricos.</li>
+                    <li><strong>Enlace:</strong> Endereços MAC e switches.</li>
+                    <li><strong>Rede:</strong> Endereços IP e roteamento.</li>
+                    <li><strong>Transporte:</strong> TCP (garante a entrega) e UDP (focado em velocidade).</li>
+                    <li><strong>Sessão:</strong> Gerenciamento da comunicação.</li>
+                    <li><strong>Apresentação:</strong> Tradução e criptografia de dados.</li>
+                    <li><strong>Aplicação:</strong> HTTP, FTP, DNS (o que você vê).</li>
+                </ol>
+
+                <div class="info-box bg-dark p-4 rounded-4 border border-primary mt-4">
+                    <h4>DNS: A Lista Telefônica da Web</h4>
+                    <p>Sem o DNS, você teria que decorar o IP de todos os sites (ex: 142.250.191.46 ao invés de google.com). Quando você digita um site, o DNS faz essa tradução em milissegundos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="news" class="section">
+            <div class="mega-card">
+                <h1 class="text-center">LEGACY <span class="text-primary">TIMES</span></h1>
+                <p class="text-center">A vanguarda da tecnologia em 2026</p>
+                <hr class="border-secondary my-5">
+                
+                <div class="news-columns">
+                    <div class="news-article">
+                        <h4>IA Generativa no Roblox</h4>
+                        <p>A nova engine do Roblox agora permite criar cenários inteiros usando apenas comandos de voz. Desenvolvedores estão relatando uma economia de 70% no tempo de modelagem 3D, permitindo focar mais na jogabilidade e menos no visual.</p>
+                    </div>
+                    <div class="news-article">
+                        <h4>Avanço na Computação Quântica</h4>
+                        <p>Pesquisadores anunciaram um chip quântico que mantém a estabilidade em temperatura ambiente. Isso pode significar o fim da criptografia atual em menos de uma década. A segurança pós-quântica agora é prioridade máxima em bancos mundiais.</p>
+                    </div>
+                    <div class="news-article">
+                        <h4>GPUs: O Fim da Crise?</h4>
+                        <p>Com a nova linha de produção na Europa, espera-se que o preço das placas de vídeo caia 15% até o final do semestre. É a melhor janela de oportunidade para upgrade nos últimos 3 anos.</p>
+                    </div>
+                    <div class="news-article">
+                        <h4>Deepfakes em Chamadas de Vídeo</h4>
+                        <p>Cuidado: Hackers estão usando IA para imitar a voz e o rosto de chefes de empresas em chamadas de Zoom. O "Golpe do CEO" já causou prejuízos de milhões. Sempre confirme ordens financeiras por outro canal.</p>
+                    </div>
+                    <div class="news-article">
+                        <h4>O Futuro do Luau</h4>
+                        <p>A linguagem do Roblox está recebendo atualizações de performance massivas. Novos tipos de dados e otimização de memória farão com que os jogos rodem melhor em celulares antigos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tutorials" class="section">
+
+<h1 class="fw-bold mb-5">GameDev & Software <span class="text-primary">Tutorial Lab</span></h1>
+
+<div class="mega-card">
+
+<h2>Como criar seu primeiro jogo no Roblox</h2>
+
+<h3>1. Abrindo o Roblox Studio</h3>
+<p>Abra o Roblox Studio e escolha um template inicial, como Baseplate ou Obby. Esses modelos já possuem uma estrutura básica para começar o desenvolvimento do jogo.</p>
+
+<h3>2. Criando o mapa</h3>
+<p>Use as ferramentas da aba Model para inserir Parts (blocos). Você pode redimensionar, mover e rotacionar esses blocos para criar plataformas, paredes e cenários. Builders normalmente usam essas ferramentas para montar o mapa inicial do jogo.</p>
+
+<h3>3. Programando com Lua</h3>
+<p>No Roblox, os sistemas do jogo são feitos com scripts em Lua (Luau). Você pode adicionar um Script em uma Part e escrever lógica para interações, como portas que abrem, moedas coletáveis ou inimigos.</p>
+
+<pre>
+local part = script.Parent
+
+part.Touched:Connect(function(player)
+print("Jogador tocou na peça")
+end)
+</pre>
+
+<h3>4. Testando o jogo</h3>
+<p>Clique no botão Play dentro do Roblox Studio para testar o jogo. Testar frequentemente é essencial para encontrar bugs e melhorar a jogabilidade.</p>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Como criar um site simples</h2>
+
+<h3>1. Estrutura com HTML</h3>
+<p>HTML cria a estrutura da página. Ele define títulos, textos, imagens e links.</p>
+
+<pre>
+&lt;h1&gt;Meu Primeiro Site&lt;/h1&gt;
+&lt;p&gt;Olá mundo!&lt;/p&gt;
+</pre>
+
+<h3>2. Estilo com CSS</h3>
+<p>CSS define aparência da página como cores, fontes e layout.</p>
+
+<pre>
+body{
+background:black;
+color:white;
+font-family:Arial;
+}
+</pre>
+
+<h3>3. Interatividade com JavaScript</h3>
+<p>JavaScript permite criar botões, animações e sistemas interativos.</p>
+
+<pre>
+function clicar(){
+alert("Botão clicado!");
+}
+</pre>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Estrutura básica de um jogo</h2>
+
+<h3>Game Loop</h3>
+<p>Todo jogo funciona em um ciclo chamado Game Loop. Esse loop atualiza o estado do jogo continuamente enquanto ele está rodando.</p>
+
+<h3>Passos do loop</h3>
+
+<ul>
+<li>Capturar input do jogador</li>
+<li>Atualizar lógica do jogo</li>
+<li>Atualizar física</li>
+<li>Renderizar gráficos</li>
+</ul>
+
+<p>Esse ciclo pode rodar dezenas ou centenas de vezes por segundo.</p>
+
+</div>
+
+</section>
+        
+<section id="shortcuts" class="section">
+
+<h1 class="fw-bold mb-5">Atalhos <span class="text-primary">Pro</span></h1>
+
+<div class="mega-card">
+
+<h2>Atalhos Essenciais do Windows</h2>
+
+<h3>Controle do sistema</h3>
+
+<ul>
+<li><b>Ctrl + C</b> → Copiar</li>
+<li><b>Ctrl + V</b> → Colar</li>
+<li><b>Ctrl + X</b> → Recortar</li>
+<li><b>Ctrl + Z</b> → Desfazer</li>
+<li><b>Ctrl + Y</b> → Refazer</li>
+<li><b>Alt + Tab</b> → Alternar entre programas abertos</li>
+<li><b>Win + D</b> → Mostrar área de trabalho</li>
+<li><b>Win + E</b> → Abrir explorador de arquivos</li>
+<li><b>Win + L</b> → Bloquear o computador</li>
+
+</ul>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Atalhos do Navegador</h2>
+
+<h3>Navegação rápida</h3>
+
+<ul>
+<li><b>Ctrl + T</b> → Nova aba</li>
+<li><b>Ctrl + W</b> → Fechar aba</li>
+<li><b>Ctrl + Shift + T</b> → Reabrir aba fechada</li>
+<li><b>Ctrl + Tab</b> → Próxima aba</li>
+<li><b>Ctrl + Shift + Tab</b> → Aba anterior</li>
+<li><b>Ctrl + L</b> → Selecionar barra de endereço</li>
+<li><b>Ctrl + R</b> → Atualizar página</li>
+<li><b>Ctrl + F</b> → Procurar texto na página</li>
+
+</ul>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Atalhos para Programação</h2>
+
+<h3>Produtividade para dev</h3>
+
+<ul>
+<li><b>Ctrl + S</b> → Salvar arquivo</li>
+<li><b>Ctrl + Shift + N</b> → Nova pasta</li>
+<li><b>Ctrl + /</b> → Comentar linha de código</li>
+<li><b>Ctrl + A</b> → Selecionar tudo</li>
+<li><b>Ctrl + Shift + P</b> → Paleta de comandos (VS Code)</li>
+<li><b>Ctrl + D</b> → Selecionar próxima ocorrência da palavra</li>
+
+</ul>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>Atalhos Avançados do Windows</h2>
+
+<h3>Ferramentas ocultas</h3>
+
+<ul>
+<li><b>Win + R</b> → Abrir Executar</li>
+<li><b>Win + X</b> → Menu avançado do sistema</li>
+<li><b>Ctrl + Shift + Esc</b> → Gerenciador de tarefas</li>
+<li><b>Win + Shift + S</b> → Ferramenta de captura de tela</li>
+<li><b>Win + Ctrl + D</b> → Criar nova área de trabalho virtual</li>
+<li><b>Win + Ctrl + ← / →</b> → Trocar de área de trabalho virtual</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<section id="history" class="section">
+
+<h1 class="fw-bold mb-5">História da <span class="text-primary">Tecnologia</span></h1>
+
+<div class="mega-card">
+
+<h2>A Era Mecânica (1800 - 1940)</h2>
+
+<h3>As primeiras máquinas de cálculo</h3>
+
+<p>No século XIX surgiram as primeiras ideias de máquinas capazes de realizar cálculos automaticamente. Charles Babbage projetou a chamada Máquina Analítica, considerada o primeiro conceito de computador programável. Ada Lovelace escreveu algoritmos para essa máquina e é considerada a primeira programadora da história.</p>
+
+<p>Nessa época os dispositivos eram totalmente mecânicos e usavam engrenagens para processar informações. Apesar das limitações tecnológicas, esses projetos estabeleceram as bases da computação moderna.</p>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>A Era dos Primeiros Computadores (1940 - 1960)</h2>
+
+<h3>Computadores gigantes</h3>
+
+<p>Durante a Segunda Guerra Mundial surgiram os primeiros computadores eletrônicos. Um dos exemplos mais famosos foi o ENIAC, criado em 1945. Ele ocupava uma sala inteira e utilizava milhares de válvulas eletrônicas para funcionar.</p>
+
+<p>Nesse período também surgiram os primeiros conceitos de programação e arquitetura de computadores. Alan Turing contribuiu com ideias fundamentais para a ciência da computação.</p>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>A Revolução do Transistor (1960 - 1980)</h2>
+
+<h3>Computadores menores e mais eficientes</h3>
+
+<p>A invenção do transistor substituiu as válvulas eletrônicas e tornou os computadores menores, mais rápidos e mais confiáveis. Essa inovação permitiu o desenvolvimento dos primeiros sistemas operacionais e linguagens de programação modernas.</p>
+
+<p>Durante essa era surgiram linguagens importantes como C, além de sistemas como Unix, que influenciam a computação até hoje.</p>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>A Era do Computador Pessoal (1980 - 2000)</h2>
+
+<h3>Computadores nas casas</h3>
+
+<p>Nos anos 80 e 90 os computadores começaram a chegar às casas das pessoas. Empresas como Microsoft, Apple e IBM lideraram essa revolução. O sistema operacional Windows ajudou a popularizar o uso do computador para trabalho, estudo e entretenimento.</p>
+
+<p>Também foi nessa época que a internet começou a se expandir para o público geral.</p>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>A Era da Internet (2000 - 2015)</h2>
+
+<h3>O mundo conectado</h3>
+
+<p>Com a popularização da internet banda larga, o mundo passou a ficar permanentemente conectado. Surgiram redes sociais, serviços online e plataformas de compartilhamento de conteúdo.</p>
+
+<p>Empresas como Google, Facebook, Amazon e YouTube transformaram a maneira como as pessoas acessam informação e se comunicam.</p>
+
+</div>
+
+
+<div class="mega-card">
+
+<h2>A Era da Inteligência Artificial (2015 - Presente)</h2>
+
+<h3>Máquinas que aprendem</h3>
+
+<p>Nos últimos anos a inteligência artificial avançou rapidamente graças ao aumento do poder computacional e à grande quantidade de dados disponíveis. Tecnologias como aprendizado de máquina, redes neurais profundas e processamento de linguagem natural permitem que computadores realizem tarefas antes consideradas exclusivas de humanos.</p>
+
+<p>Hoje a IA está presente em assistentes virtuais, carros autônomos, sistemas de recomendação e ferramentas de criação de conteúdo.</p>
+
+</div>
+
+</section>
+
+<section id="challenges" class="section" style="display:none;">
+
+<h1 class="fw-bold mb-5">Tech <span class="text-primary">Challenges</span></h1>
+
+<div class="mega-card">
+
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+    
+<h2 id="questionTitle">Pergunta</h2>
+
+<div id="answers"></div>
+
+<p id="quizFeedback" style="margin-top:30px;font-weight:bold;"></p>
+
+<button class="btn btn-primary mt-4" onclick="nextQuestion()">Próxima Pergunta</button>
+
+</div>
+
+<div class="mega-card">
+
+<h2>Pontuação</h2>
+
+<h3>Pontos: <span id="score">0</span></h3>
+<h3>XP: <span id="xp">0</span></h3>
+<h3>Level: <span id="level">1</span></h3>
+
+</div>
+
+<h2>Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Senha">
+
+<button onclick="register()">Registrar</button>
+<button onclick="login()">Entrar</button>
+
+</section>
+
+<div class="faq-grid">
+
+<div class="faq-card" onclick="showAnswer('phishing')">Phishing</div>
+<div class="faq-card" onclick="showAnswer('api')">API</div>
+<div class="faq-card" onclick="showAnswer('frontend')">Frontend</div>
+<div class="faq-card" onclick="showAnswer('backend')">Backend</div>
+<div class="faq-card" onclick="showAnswer('html')">HTML</div>
+<div class="faq-card" onclick="showAnswer('css')">CSS</div>
+<div class="faq-card" onclick="showAnswer('javascript')">JavaScript</div>
+<div class="faq-card" onclick="showAnswer('osi')">Modelo OSI</div>
+<div class="faq-card" onclick="showAnswer('dns')">DNS</div>
+<div class="faq-card" onclick="showAnswer('ip')">Endereço IP</div>
+<div class="faq-card" onclick="showAnswer('tcp')">TCP</div>
+<div class="faq-card" onclick="showAnswer('udp')">UDP</div>
+<div class="faq-card" onclick="showAnswer('firewall')">Firewall</div>
+<div class="faq-card" onclick="showAnswer('malware')">Malware</div>
+<div class="faq-card" onclick="showAnswer('ransomware')">Ransomware</div>
+<div class="faq-card" onclick="showAnswer('cpu')">CPU</div>
+<div class="faq-card" onclick="showAnswer('gpu')">GPU</div>
+<div class="faq-card" onclick="showAnswer('ram')">RAM</div>
+<div class="faq-card" onclick="showAnswer('ssd')">SSD</div>
+<div class="faq-card" onclick="showAnswer('algoritmo')">Algoritmo</div>
+<div class="faq-card" onclick="showAnswer('git')">Git</div>
+<div class="faq-card" onclick="showAnswer('docker')">Docker</div>
+<div class="faq-card" onclick="showAnswer('linux')">Linux</div>
+<div class="faq-card" onclick="showAnswer('windows')">Windows</div>
+<div class="faq-card" onclick="showAnswer('lua')">Lua</div>
+<div class="faq-card" onclick="showAnswer('roblox')">Roblox Dev</div>
+<div class="faq-card" onclick="showAnswer('gameengine')">Game Engine</div>
+<div class="faq-card" onclick="showAnswer('ai')">Inteligência Artificial</div>
+<div class="faq-card" onclick="showAnswer('machinelearning')">Machine Learning</div>
+<div class="faq-card" onclick="showAnswer('cloud')">Cloud Computing</div>
+
+</div>
+
+<div id="answerBox" style="margin-top:40px;padding:30px;background:#0d1117;border-radius:20px;border:1px solid #30363d;font-size:1.2rem;">
+Clique em um quadrado para ver a explicação.
+</div>
+
+    </main>
+
+    <script>
+        // SISTEMA DE NAVEGAÇÃO DE ALTA PERFORMANCE
+        function nav(id, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+</script>
+
+<script>
+let score = 0
+let currentQuestion = 0
+let answered = false
+let shuffledAnswers = []
+
+let xp = 0
+let level = 1
+
+const quiz = [
+
+{
+q:"Qual protocolo garante entrega correta dos dados?",
+a:["TCP","UDP","IP","HTTP"],
+correct:"TCP"
+},
+
+{
+q:"Qual linguagem é usada no Roblox?",
+a:["Lua","Python","C#","Java"],
+correct:"Lua"
+},
+
+{
+q:"Qual tecnologia estrutura páginas web?",
+a:["HTML","Python","C++","Lua"],
+correct:"HTML"
+},
+
+{
+q:"Qual linguagem estiliza páginas?",
+a:["CSS","Java","Lua","C"],
+correct:"CSS"
+},
+
+{
+q:"Qual linguagem cria interatividade no site?",
+a:["JavaScript","HTML","Python","C++"],
+correct:"JavaScript"
+},
+
+{
+q:"O que significa CPU?",
+a:[
+"Central Processing Unit",
+"Computer Personal Unit",
+"Central Program Utility",
+"Core Process Utility"
+],
+correct:"Central Processing Unit"
+},
+
+{
+q:"Qual componente processa gráficos?",
+a:["GPU","RAM","SSD","CPU"],
+correct:"GPU"
+},
+
+{
+q:"O que faz o DNS?",
+a:[
+"Traduz nomes de sites para IP",
+"Cria senhas",
+"Controla energia",
+"Armazena arquivos"
+],
+correct:"Traduz nomes de sites para IP"
+},
+
+{
+q:"Qual sistema operacional é open source?",
+a:["Linux","Windows","iOS","MacOS"],
+correct:"Linux"
+},
+
+{
+q:"Qual ferramenta controla versões de código?",
+a:["Git","Docker","Node","MySQL"],
+correct:"Git"
+},
+
+{
+q:"Qual protocolo é mais rápido mas não garante entrega?",
+a:["UDP","TCP","HTTP","FTP"],
+correct:"UDP"
+},
+
+{
+q:"O que é um algoritmo?",
+a:[
+"Sequência de passos para resolver um problema",
+"Tipo de hardware",
+"Programa antivírus",
+"Sistema operacional"
+],
+correct:"Sequência de passos para resolver um problema"
+},
+
+{
+q:"Qual empresa criou o Windows?",
+a:["Microsoft","Apple","Google","IBM"],
+correct:"Microsoft"
+},
+
+{
+q:"Quem criou o Linux?",
+a:[
+"Linus Torvalds",
+"Bill Gates",
+"Steve Jobs",
+"Tim Berners-Lee"
+],
+correct:"Linus Torvalds"
+},
+
+{
+q:"Quem criou a World Wide Web?",
+a:[
+"Tim Berners-Lee",
+"Alan Turing",
+"Mark Zuckerberg",
+"Elon Musk"
+],
+correct:"Tim Berners-Lee"
+},
+
+{
+q:"Qual linguagem foi muito usada em apps Android antigos?",
+a:["Java","Lua","Swift","Rust"],
+correct:"Java"
+},
+
+{
+q:"O que é malware?",
+a:[
+"Software malicioso",
+"Memória RAM",
+"Tipo de processador",
+"Driver de vídeo"
+],
+correct:"Software malicioso"
+},
+
+{
+q:"O que faz um firewall?",
+a:[
+"Filtra conexões de rede",
+"Aumenta FPS",
+"Armazena dados",
+"Renderiza gráficos"
+],
+correct:"Filtra conexões de rede"
+},
+
+{
+q:"O que significa RAM?",
+a:[
+"Random Access Memory",
+"Rapid Access Machine",
+"Real Application Mode",
+"Runtime Active Module"
+],
+correct:"Random Access Memory"
+},
+
+{
+q:"O que é cloud computing?",
+a:[
+"Uso de servidores na internet",
+"Tipo de processador",
+"Placa de vídeo",
+"Programa antivírus"
+],
+correct:"Uso de servidores na internet"
+}
+
+]
+
+function shuffle(array){
+for(let i = array.length -1; i >0; i--){
+let j = Math.floor(Math.random() * (i + 1))
+let temp = array[i]
+array[i] = array[j]
+array[j] = temp
+}
+}
+
+function updateLevel(){
+
+if(xp >= 900) level = 5
+else if(xp >= 500) level = 4
+else if(xp >= 250) level = 3
+else if(xp >= 100) level = 2
+else level = 1
+
+document.getElementById("xp").innerText = xp
+document.getElementById("level").innerText = level
+
+}
+
+function loadQuestion(){
+
+answered = false
+
+let q = quiz[currentQuestion]
+
+document.getElementById("questionTitle").innerText = q.q
+
+shuffledAnswers = q.a.slice()
+
+shuffle(shuffledAnswers)
+
+let container = document.getElementById("answers")
+
+container.innerHTML = ""
+
+shuffledAnswers.forEach((option,index)=>{
+
+let btn = document.createElement("button")
+
+btn.innerText = option
+btn.className = "btn btn-outline-primary m-2 answer-btn"
+
+btn.onclick = function(){
+answer(index)
+}
+
+container.appendChild(btn)
+
+})
+
+document.getElementById("quizFeedback").innerText = ""
+
+updateProgress()
+
+}
+
+function updateProgress(){
+
+let percent = ((currentQuestion + 1) / quiz.length) * 100
+
+document.getElementById("progressBar").style.width = percent + "%"
+
+}
+
+function answer(index){
+
+if(answered) return
+answered = true
+
+let q = quiz[currentQuestion]
+let option = shuffledAnswers[index]
+
+let buttons = document.querySelectorAll(".answer-btn")
+
+buttons.forEach(btn => btn.disabled = true)
+
+if(option === q.correct){
+
+buttons[index].classList.remove("btn-outline-primary")
+buttons[index].classList.add("btn-success")
+
+document.getElementById("quizFeedback").innerText = "Correto!"
+score++
+
+xp += 10
+updateLevel()
+
+}else{
+
+buttons[index].classList.remove("btn-outline-primary")
+buttons[index].classList.add("btn-danger")
+
+buttons.forEach(btn=>{
+if(btn.innerText === q.correct){
+btn.classList.remove("btn-outline-primary")
+btn.classList.add("btn-success")
+}
+})
+
+document.getElementById("quizFeedback").innerText = "Errado!"
+
+}
+
+document.getElementById("score").innerText = score
+
+}
+
+function nextQuestion(){
+
+currentQuestion++
+
+if(currentQuestion >= quiz.length){
+
+document.getElementById("questionTitle").innerText = "Quiz finalizado!"
+document.getElementById("answers").innerHTML = ""
+document.getElementById("quizFeedback").innerText = "Pontuação final: " + score
+
+document.getElementById("progressBar").style.width = "100%"
+
+return
+}
+
+loadQuestion()
+
+}
+
+loadQuestion()
+</script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
+
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+
+import { 
+  getFirestore, 
+  doc, 
+  setDoc 
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBA9IpkDR20Mi2ljjU3X_iIfipcd2aC0xo",
+  authDomain: "legacypro-6cc6f.firebaseapp.com",
+  projectId: "legacypro-6cc6f",
+  storageBucket: "legacypro-6cc6f.firebasestorage.app",
+  messagingSenderId: "325278072838",
+  appId: "1:325278072838:web:5f1ba9fac5210b8793c387",
+  measurementId: "G-4RENE228QN"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+window.register = async function(){
+
+const email = document.getElementById("email").value
+const password = document.getElementById("password").value
+
+try{
+
+const userCredential = await createUserWithEmailAndPassword(auth,email,password)
+const user = userCredential.user
+
+// cria usuário no banco
+await setDoc(doc(db,"users",user.uid),{
+email:user.email,
+xp:0,
+level:1,
+pontos:0
+})
+
+alert("Conta criada!")
+
+}catch(error){
+
+alert(error.message)
+
+}
+
+}
+
+
+window.login = async function(){
+
+const email = document.getElementById("email").value
+const password = document.getElementById("password").value
+
+try{
+
+await signInWithEmailAndPassword(auth,email,password)
+
+alert("Login feito!")
+
+}catch(error){
+
+alert(error.message)
+
+}
+
+}
+
+
+// verifica login automaticamente
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+console.log("Usuário logado:", user.email)
+
+document.getElementById("challenges").style.display = "block"
+
+}
+
+})
+
+</script>
+
+</body>
+</html>
